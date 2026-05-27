@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园打卡指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 20px 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header {
+                padding: 30px 15px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📍 校园打卡指南</h1>
+            <p>发现校园之美，记录青春足迹</p>
+        </header>
+
+        <div class="cards-grid">
+            <article class="card">
+                <img src="https://picsum.photos/400/300?random=1" alt="图书馆" class="card-image">
+                <div class="card-content">
+                    <span class="card-number">1</span>
+                    <h2>校图书馆</h2>
+                    <p>安静的学习环境，丰富的藏书资源，是自习和阅读的最佳去处。期末复习的圣地，也是避暑乘凉的好地方。</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://picsum.photos/400/300?random=2" alt="体育场" class="card-image">
+                <div class="card-content">
+                    <span class="card-number">2</span>
+                    <h2>体育场</h2>
+                    <p>标准400米跑道，足球场、篮球场、网球场一应俱全。早起晨跑、夜间散步，都是锻炼身体的好选择。</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://picsum.photos/400/300?random=3" alt="樱花大道" class="card-image">
+                <div class="card-content">
+                    <span class="card-number">3</span>
+                    <h2>樱花大道</h2>
+                    <p>春天必打卡的网红景点！两旁樱花盛开，落英缤纷，漫步其中仿佛置身于粉色海洋，拍照超级出片。</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://picsum.photos/400/300?random=4" alt="行政楼" class="card-image">
+                <div class="card-content">
+                    <span class="card-number">4</span>
+                    <h2>校行政楼</h2>
+                    <p>校园标志性建筑，历史悠久，建筑风格独特。前有大草坪，是毕业照、入学照的热门取景地。</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://picsum.photos/400/300?random=5" alt="食堂" class="card-image">
+                <div class="card-content">
+                    <span class="card-number">5</span>
+                    <h2>学生食堂</h2>
+                    <p>美食天堂！各地风味小吃应有尽有，价格实惠。一楼的糖醋排骨、二楼的麻辣香锅，馋哭无数校友。</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://picsum.photos/400/300?random=6" alt="湖边" class="card-image">
+                <div class="card-content">
+                    <span class="card-number">6</span>
+                    <h2>校园湖</h2>
+                    <p>湖光山色，风景宜人。湖边有凉亭和长椅，是晨读、约会、发呆的理想场所。夏天还能看到荷花盛开。</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://picsum.photos/400/300?random=7" alt="钟楼" class="card-image">
+                <div class="card-content">
+                    <span class="card-number">7</span>
+                    <h2>校园钟楼</h2>
+                    <p>校园最高点，也是最浪漫的地标。登顶可以俯瞰整个校园，夜景尤其美丽，是情侣们约会的不二之选。</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://picsum.photos/400/300?random=8" alt="艺术中心" class="card-image">
+                <div class="card-content">
+                    <span class="card-number">8</span>
+                    <h2>艺术中心</h2>
+                    <p>校园文化地标，定期举办音乐会、话剧、展览等文艺活动。在这里可以欣赏到高水平的艺术表演，感受校园文化氛围。</p>
+                </div>
+            </article>
+        </div>
+
+        <footer>
+            <p>© 2026 校园打卡指南 | 记录美好校园生活</p>
+        </footer>
+    </div>
+</body>
+</html>
