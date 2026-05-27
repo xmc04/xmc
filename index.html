@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>校园打卡指南</title>
+    <title>校园打卡指南 - 升级版</title>
     <style>
         * {
             margin: 0;
@@ -23,47 +23,276 @@
             margin: 0 auto;
         }
 
-        header {
+        /* ==================== 封面区域 ==================== */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 60px 30px;
             text-align: center;
             color: white;
-            padding: 40px 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
         }
 
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://picsum.photos/1200/400?random=100') center/cover;
+            opacity: 0.3;
         }
 
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            animation: fadeInDown 0.8s ease-out 0.2s both;
+        }
+
+        /* ==================== 搜索和筛选栏 ==================== */
+        .toolbar {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .toolbar-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        .sort-select {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .sort-select:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        /* ==================== 统计信息 ==================== */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-item span {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-item small {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* ==================== 卡片网格 ==================== */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 24px;
-            padding: 20px 0;
+            padding: 10px 0 40px;
         }
 
+        /* ==================== 卡片样式 ==================== */
         .card {
             background: white;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 20px 45px rgba(102, 126, 234, 0.35);
+        }
+
+        .card:nth-child(odd):hover {
+            box-shadow: 0 20px 45px rgba(118, 75, 162, 0.35);
+        }
+
+        .card-image-wrapper {
+            position: relative;
+            overflow: hidden;
         }
 
         .card-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            transition: transform 0.5s ease, filter 0.3s ease;
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.1);
+        }
+
+        .card:hover .card-image-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 100%);
+        }
+
+        .card-category {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .card-like {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .card-like:hover {
+            transform: scale(1.2);
+        }
+
+        .card-like.liked {
+            background: #ff4757;
+            animation: heartbeat 0.6s ease;
+        }
+
+        .card-like-count {
+            position: absolute;
+            bottom: -8px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
         }
 
         .card-content {
@@ -87,6 +316,11 @@
             font-size: 1.3rem;
             color: #333;
             margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .card:hover h2 {
+            color: #667eea;
         }
 
         .card p {
@@ -95,114 +329,773 @@
             font-size: 0.95rem;
         }
 
+        .card-location {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .card-location::before {
+            content: '📍';
+            margin-right: 5px;
+        }
+
+        /* ==================== 弹窗详情面板 ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            padding: 30px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #f0f0f0;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: #ff4757;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            font-size: 1.8rem;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-category {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
+
+        .modal p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+        }
+
+        .modal-like-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-like-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-like-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .modal-like-btn.liked {
+            background: #ff4757;
+        }
+
+        /* ==================== Lightbox ==================== */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            transform: scale(0.8);
+            transition: all 0.4s ease;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* ==================== 空状态 ==================== */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* ==================== 页脚 ==================== */
         footer {
             text-align: center;
             color: white;
             padding: 30px;
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 1.8rem;
+        /* ==================== 动画关键帧 ==================== */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        /* ==================== 响应式设计 ==================== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
             }
 
-            header {
-                padding: 30px 15px;
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .toolbar-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .stats {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .stat-item {
+                flex: 1;
+                min-width: 120px;
             }
 
             .cards-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 15px 0;
+            }
+
+            .modal {
+                max-height: 95vh;
+                border-radius: 16px;
+            }
+
+            .modal-image {
+                height: 220px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .filter-btn {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+
+            .card-content {
+                padding: 15px;
+            }
+
+            .modal-info {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>📍 校园打卡指南</h1>
-            <p>发现校园之美，记录青春足迹</p>
+        <!-- 封面区域 -->
+        <header class="hero">
+            <div class="hero-content">
+                <h1>📍 校园打卡指南</h1>
+                <p>发现校园之美，记录青春足迹 | 精选8大必打卡地点</p>
+            </div>
         </header>
 
-        <div class="cards-grid">
-            <article class="card">
-                <img src="https://picsum.photos/400/300?random=1" alt="图书馆" class="card-image">
-                <div class="card-content">
-                    <span class="card-number">1</span>
-                    <h2>校图书馆</h2>
-                    <p>安静的学习环境，丰富的藏书资源，是自习和阅读的最佳去处。期末复习的圣地，也是避暑乘凉的好地方。</p>
+        <!-- 搜索和筛选工具栏 -->
+        <div class="toolbar">
+            <div class="toolbar-row">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="搜索打卡地点...">
                 </div>
-            </article>
-
-            <article class="card">
-                <img src="https://picsum.photos/400/300?random=2" alt="体育场" class="card-image">
-                <div class="card-content">
-                    <span class="card-number">2</span>
-                    <h2>体育场</h2>
-                    <p>标准400米跑道，足球场、篮球场、网球场一应俱全。早起晨跑、夜间散步，都是锻炼身体的好选择。</p>
+                <div class="filter-buttons" id="filterButtons">
+                    <button class="filter-btn active" data-filter="all">全部</button>
+                    <button class="filter-btn" data-filter="学习">📚 学习</button>
+                    <button class="filter-btn" data-filter="运动">🏃 运动</button>
+                    <button class="filter-btn" data-filter="风景">🌸 风景</button>
+                    <button class="filter-btn" data-filter="美食">🍜 美食</button>
+                    <button class="filter-btn" data-filter="建筑">🏛️ 建筑</button>
                 </div>
-            </article>
-
-            <article class="card">
-                <img src="https://picsum.photos/400/300?random=3" alt="樱花大道" class="card-image">
-                <div class="card-content">
-                    <span class="card-number">3</span>
-                    <h2>樱花大道</h2>
-                    <p>春天必打卡的网红景点！两旁樱花盛开，落英缤纷，漫步其中仿佛置身于粉色海洋，拍照超级出片。</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="https://picsum.photos/400/300?random=4" alt="行政楼" class="card-image">
-                <div class="card-content">
-                    <span class="card-number">4</span>
-                    <h2>校行政楼</h2>
-                    <p>校园标志性建筑，历史悠久，建筑风格独特。前有大草坪，是毕业照、入学照的热门取景地。</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="https://picsum.photos/400/300?random=5" alt="食堂" class="card-image">
-                <div class="card-content">
-                    <span class="card-number">5</span>
-                    <h2>学生食堂</h2>
-                    <p>美食天堂！各地风味小吃应有尽有，价格实惠。一楼的糖醋排骨、二楼的麻辣香锅，馋哭无数校友。</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="https://picsum.photos/400/300?random=6" alt="湖边" class="card-image">
-                <div class="card-content">
-                    <span class="card-number">6</span>
-                    <h2>校园湖</h2>
-                    <p>湖光山色，风景宜人。湖边有凉亭和长椅，是晨读、约会、发呆的理想场所。夏天还能看到荷花盛开。</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="https://picsum.photos/400/300?random=7" alt="钟楼" class="card-image">
-                <div class="card-content">
-                    <span class="card-number">7</span>
-                    <h2>校园钟楼</h2>
-                    <p>校园最高点，也是最浪漫的地标。登顶可以俯瞰整个校园，夜景尤其美丽，是情侣们约会的不二之选。</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="https://picsum.photos/400/300?random=8" alt="艺术中心" class="card-image">
-                <div class="card-content">
-                    <span class="card-number">8</span>
-                    <h2>艺术中心</h2>
-                    <p>校园文化地标，定期举办音乐会、话剧、展览等文艺活动。在这里可以欣赏到高水平的艺术表演，感受校园文化氛围。</p>
-                </div>
-            </article>
+                <select class="sort-select" id="sortSelect">
+                    <option value="default">默认排序</option>
+                    <option value="likes">按点赞数</option>
+                    <option value="name">按名称</option>
+                </select>
+            </div>
         </div>
 
+        <!-- 统计信息 -->
+        <div class="stats">
+            <div class="stat-item">
+                <span id="totalCount">8</span>
+                <small>打卡地点</small>
+            </div>
+            <div class="stat-item">
+                <span id="filteredCount">8</span>
+                <small>显示中</small>
+            </div>
+            <div class="stat-item">
+                <span id="totalLikes">0</span>
+                <small>总点赞</small>
+            </div>
+        </div>
+
+        <!-- 卡片网格 -->
+        <div class="cards-grid" id="cardsGrid"></div>
+
+        <!-- 空状态提示 -->
+        <div class="no-results" id="noResults">
+            <h3>😢 没有找到符合条件的地点</h3>
+            <p>请尝试调整筛选条件或搜索关键词</p>
+        </div>
+
+        <!-- 页脚 -->
         <footer>
-            <p>© 2026 校园打卡指南 | 记录美好校园生活</p>
+            <p>© 2026 校园打卡指南 | 发现校园之美</p>
         </footer>
     </div>
+
+    <!-- 详情弹窗 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <img src="" alt="" class="modal-image" id="modalImage">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle"></h2>
+                    <button class="modal-close" id="modalClose">×</button>
+                </div>
+                <span class="modal-category" id="modalCategory"></span>
+                <p id="modalDescription"></p>
+                <p id="modalDetail"></p>
+                <div class="modal-info">
+                    <div class="modal-info-item">
+                        <span>📍</span>
+                        <span id="modalLocation"></span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span>🕐</span>
+                        <span id="modalTime"></span>
+                    </div>
+                </div>
+                <div class="modal-like-section">
+                    <button class="modal-like-btn" id="modalLikeBtn">
+                        🤍 点赞
+                    </button>
+                    <span id="modalLikeCount"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-close">×</div>
+        <img src="" alt="">
+    </div>
+
+    <script>
+        // ==================== 数据定义 ====================
+        const places = [
+            {
+                id: 1,
+                name: '校图书馆',
+                category: '学习',
+                location: '校园中心区',
+                time: '周一至周日 8:00-22:00',
+                description: '安静的学习环境，丰富的藏书资源，是自习和阅读的最佳去处。期末复习的圣地，也是避暑乘凉的好地方。',
+                detail: '图书馆共有5层，藏书超过100万册。一楼是自习区，二楼是期刊阅览室，三楼是中文图书区，四楼是外文图书区，五楼是特藏部和研究室。每个楼层都有免费的WiFi和充电插座。',
+                image: 'https://picsum.photos/400/300?random=1',
+                likes: 0
+            },
+            {
+                id: 2,
+                name: '体育场',
+                category: '运动',
+                location: '校园东区',
+                time: '周一至周日 6:00-22:00',
+                description: '标准400米跑道，足球场、篮球场、网球场一应俱全。早起晨跑、夜间散步，都是锻炼身体的好选择。',
+                detail: '体育场是学校最大的运动场地，包括一个标准田径场、两个篮球场、四个网球场和一个足球场。每年学校运动会和各种体育比赛都在这里举行。场地免费开放，但需要提前预约。',
+                image: 'https://picsum.photos/400/300?random=2',
+                likes: 0
+            },
+            {
+                id: 3,
+                name: '樱花大道',
+                category: '风景',
+                location: '校园西侧',
+                time: '全天开放',
+                description: '春天必打卡的网红景点！两旁樱花盛开，落英缤纷，漫步其中仿佛置身于粉色海洋，拍照超级出片。',
+                detail: '樱花大道全长约500米，两侧种植了上百棵樱花树。每年3-4月是最佳观赏期，吸引众多校内外游客前来打卡拍照。夜晚的樱花大道在灯光映衬下更显浪漫。',
+                image: 'https://picsum.photos/400/300?random=3',
+                likes: 0
+            },
+            {
+                id: 4,
+                name: '校行政楼',
+                category: '建筑',
+                location: '校园中轴线',
+                time: '工作日 8:30-17:30',
+                description: '校园标志性建筑，历史悠久，建筑风格独特。前有大草坪，是毕业照、入学照的热门取景地。',
+                detail: '行政楼建于1950年代，是学校最具历史意义的建筑之一。楼前的大草坪是学生们休闲的好去处，也是每年毕业典礼的主会场。建筑融合了中西风格，非常适合拍照。',
+                image: 'https://picsum.photos/400/300?random=4',
+                likes: 0
+            },
+            {
+                id: 5,
+                name: '学生食堂',
+                category: '美食',
+                location: '校园南区',
+                time: '周一至周日 6:30-21:00',
+                description: '美食天堂！各地风味小吃应有尽有，价格实惠。一楼的糖醋排骨、二楼的麻辣香锅，馋哭无数校友。',
+                detail: '食堂共有三层，一楼以快餐为主，二楼主打特色小吃和炒菜，三楼是清真餐厅和西式简餐。人均消费约15-25元。每到饭点人流如织，是感受校园烟火气的最佳地点。',
+                image: 'https://picsum.photos/400/300?random=5',
+                likes: 0
+            },
+            {
+                id: 6,
+                name: '校园湖',
+                category: '风景',
+                location: '校园北区',
+                time: '全天开放',
+                description: '湖光山色，风景宜人。湖边有凉亭和长椅，是晨读、约会、发呆的理想场所。夏天还能看到荷花盛开。',
+                detail: '校园湖面积约20亩，湖中有喷泉和睡莲。湖畔种植了垂柳和桃树，春天桃花盛开时格外美丽。湖边设有观景平台和亲水平台，是同学们放松身心的好去处。',
+                image: 'https://picsum.photos/400/300?random=6',
+                likes: 0
+            },
+            {
+                id: 7,
+                name: '校园钟楼',
+                category: '建筑',
+                location: '校园制高点',
+                time: '特殊节日开放',
+                description: '校园最高点，也是最浪漫的地标。登顶可以俯瞰整个校园，夜景尤其美丽，是情侣们约会的不二之选。',
+                detail: '钟楼高约50米，是学校的最高建筑。整点时会响起悠扬的钟声。钟楼顶部设有观景台，可以俯瞰整个校园全景。每逢重大节日还会举办灯光秀。',
+                image: 'https://picsum.photos/400/300?random=7',
+                likes: 0
+            },
+            {
+                id: 8,
+                name: '艺术中心',
+                category: '学习',
+                location: '校园西南区',
+                time: '活动期间开放',
+                description: '校园文化地标，定期举办音乐会、话剧、展览等文艺活动。在这里可以欣赏到高水平的艺术表演，感受校园文化氛围。',
+                detail: '艺术中心建筑面积约8000平方米，设有800个座位的大剧院、小剧场、排练厅等设施。每年举办各类演出和展览超过100场，是校园文化生活的重要组成部分。',
+                image: 'https://picsum.photos/400/300?random=8',
+                likes: 0
+            }
+        ];
+
+        // ==================== 状态管理 ====================
+        let currentFilter = 'all';
+        let searchTerm = '';
+        let currentSort = 'default';
+        let likes = JSON.parse(localStorage.getItem('campusLikes')) || {};
+
+        // ==================== DOM 元素 ====================
+        const cardsGrid = document.getElementById('cardsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.getElementById('filterButtons');
+        const sortSelect = document.getElementById('sortSelect');
+        const noResults = document.getElementById('noResults');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const lightbox = document.getElementById('lightbox');
+
+        // ==================== 初始化 ====================
+        function init() {
+            // 从 localStorage 恢复点赞数据
+            places.forEach(place => {
+                if (likes[place.id]) {
+                    place.likes = likes[place.id];
+                }
+            });
+
+            renderCards();
+            updateStats();
+            bindEvents();
+        }
+
+        // ==================== 渲染卡片 ====================
+        function renderCards() {
+            let filteredPlaces = places.filter(place => {
+                const matchFilter = currentFilter === 'all' || place.category === currentFilter;
+                const matchSearch = place.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                   place.description.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchFilter && matchSearch;
+            });
+
+            // 排序
+            if (currentSort === 'likes') {
+                filteredPlaces.sort((a, b) => b.likes - a.likes);
+            } else if (currentSort === 'name') {
+                filteredPlaces.sort((a, b) => a.name.localeCompare(b.name));
+            }
+
+            // 更新统计
+            document.getElementById('filteredCount').textContent = filteredPlaces.length;
+
+            // 显示空状态
+            if (filteredPlaces.length === 0) {
+                cardsGrid.innerHTML = '';
+                noResults.classList.add('show');
+                return;
+            }
+            noResults.classList.remove('show');
+
+            // 渲染卡片
+            cardsGrid.innerHTML = filteredPlaces.map((place, index) => `
+                <article class="card" data-id="${place.id}" style="animation-delay: ${index * 0.1}s">
+                    <div class="card-image-wrapper">
+                        <img src="${place.image}" alt="${place.name}" class="card-image">
+                        <span class="card-category">${place.category}</span>
+                        <div class="card-like ${likes[place.id] ? 'liked' : ''}" data-id="${place.id}" onclick="event.stopPropagation(); toggleLike(${place.id})">
+                            ${likes[place.id] ? '❤️' : '🤍'}
+                            <span class="card-like-count">${place.likes}</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-number">${place.id}</span>
+                        <h2>${place.name}</h2>
+                        <p>${place.description}</p>
+                        <div class="card-location">${place.location}</div>
+                    </div>
+                </article>
+            `).join('');
+
+            // 添加滚动动画观察器
+            observeCards();
+        }
+
+        // ==================== 滚动动画观察器 ====================
+        function observeCards() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // ==================== 更新统计信息 ====================
+        function updateStats() {
+            const totalLikes = places.reduce((sum, place) => sum + place.likes, 0);
+            document.getElementById('totalLikes').textContent = totalLikes;
+        }
+
+        // ==================== 点赞功能 ====================
+        function toggleLike(id) {
+            const place = places.find(p => p.id === id);
+            if (!place) return;
+
+            if (likes[id]) {
+                likes[id] = 0;
+                place.likes = 0;
+            } else {
+                likes[id] = 1;
+                place.likes = 1;
+            }
+
+            localStorage.setItem('campusLikes', JSON.stringify(likes));
+            renderCards();
+            updateStats();
+        }
+
+        // ==================== 弹窗功能 ====================
+        function openModal(id) {
+            const place = places.find(p => p.id === id);
+            if (!place) return;
+
+            document.getElementById('modalImage').src = place.image;
+            document.getElementById('modalTitle').textContent = place.name;
+            document.getElementById('modalCategory').textContent = place.category;
+            document.getElementById('modalDescription').textContent = place.description;
+            document.getElementById('modalDetail').textContent = place.detail;
+            document.getElementById('modalLocation').textContent = place.location;
+            document.getElementById('modalTime').textContent = place.time;
+
+            const likeBtn = document.getElementById('modalLikeBtn');
+            likeBtn.className = `modal-like-btn ${likes[id] ? 'liked' : ''}`;
+            likeBtn.innerHTML = `${likes[id] ? '❤️' : '🤍'} ${likes[id] ? '已点赞' : '点赞'}`;
+            likeBtn.onclick = () => toggleLike(id);
+
+            document.getElementById('modalLikeCount').textContent = `已有 ${place.likes} 人点赞`;
+
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ==================== Lightbox 功能 ====================
+        function openLightbox(src) {
+            lightbox.querySelector('img').src = src;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // ==================== 事件绑定 ====================
+        function bindEvents() {
+            // 搜索
+            searchInput.addEventListener('input', (e) => {
+                searchTerm = e.target.value;
+                renderCards();
+            });
+
+            // 筛选按钮
+            filterButtons.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-btn')) {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentFilter = e.target.dataset.filter;
+                    renderCards();
+                }
+            });
+
+            // 排序
+            sortSelect.addEventListener('change', (e) => {
+                currentSort = e.target.value;
+                renderCards();
+            });
+
+            // 卡片点击 - 打开弹窗
+            cardsGrid.addEventListener('click', (e) => {
+                const card = e.target.closest('.card');
+                if (card && !e.target.closest('.card-like')) {
+                    openModal(parseInt(card.dataset.id));
+                }
+            });
+
+            // 弹窗关闭
+            document.getElementById('modalClose').addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+
+            // 弹窗图片点击 - 打开 Lightbox
+            document.getElementById('modalImage').addEventListener('click', (e) => {
+                openLightbox(e.target.src);
+            });
+
+            // Lightbox 关闭
+            document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // ESC 键关闭弹窗
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    closeLightbox();
+                }
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
